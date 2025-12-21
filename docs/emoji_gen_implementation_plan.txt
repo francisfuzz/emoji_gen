@@ -1,0 +1,231 @@
+================================================================================
+EMOJI_GEN CLI - IMPLEMENTATION PLAN FOR CLAUDE CODE
+================================================================================
+
+PROJECT OVERVIEW
+----------------
+Create a Rust CLI application that outputs random emojis to stdout.
+- Default: 1 emoji
+- Supports --count/-c argument for multiple emojis
+- Uses lib/bin split pattern (logic in lib.rs, CLI in main.rs)
+- Dockerfile with optimized dependency caching
+
+TECHNICAL STACK
+---------------
+Language: Rust (stable)
+Dependencies:
+  - clap = { version = "4.5", features = ["derive"] }
+  - rand = "0.8"
+
+================================================================================
+IMPLEMENTATION STEPS
+================================================================================
+
+STEP 1: PROJECT INITIALIZATION
+-------------------------------
+cargo new emoji_gen --bin
+cd emoji_gen
+
+STEP 2: CREATE/UPDATE FILES IN THIS ORDER
+------------------------------------------
+
+FILE 1: Cargo.toml
+------------------
+[package]
+name = "emoji_gen"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "emoji_gen"
+path = "src/lib.rs"
+
+[[bin]]
+name = "emoji_gen"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+rand = "0.8"
+
+FILE 2: src/lib.rs
+------------------
+use rand::seq::SliceRandom;
+
+/// A constant list of emojis to choose from
+const EMOJI_POOL: &[&str] = &[
+    "😀", "😎", "🦀", "🔥", "🚀", "🍕", "🎉", "💻", "🤖", "🦄", 
+    "🍩", "🌍", "💡", "🐉", "🎲", "🎹", "🎨", "🌮", "⚡", "👽"
+];
+
+/// Core logic: Generates a vector of n random emojis.
+/// Returns empty vector if count is 0.
+pub fn generate_emojis(count: usize) -> Vec<&'static str> {
+    if count == 0 {
+        return Vec::new();
+    }
+    
+    let mut rng = rand::thread_rng();
+    (0..count)
+        .map(|_| *EMOJI_POOL.choose(&mut rng).expect("EMOJI_POOL is non-empty"))
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generate_single_emoji() {
+        let result = generate_emojis(1);
+        assert_eq!(result.len(), 1);
+        assert!(EMOJI_POOL.contains(&result[0]));
+    }
+
+    #[test]
+    fn test_generate_multiple_emojis() {
+        let count = 5;
+        let result = generate_emojis(count);
+        assert_eq!(result.len(), count);
+        for emoji in result {
+            assert!(EMOJI_POOL.contains(&emoji));
+        }
+    }
+
+    #[test]
+    fn test_generate_zero_emojis() {
+        let result = generate_emojis(0);
+        assert!(result.is_empty());
+    }
+}
+
+FILE 3: src/main.rs
+-------------------
+use clap::Parser;
+use emoji_gen::generate_emojis;
+
+/// A simple CLI to generate random emojis
+#[derive(Parser)]
+#[command(version, about, long_about = None)]
+struct Args {
+    /// Number of emojis to generate
+    #[arg(short, long, default_value_t = 1)]
+    count: usize,
+}
+
+fn main() {
+    let args = Args::parse();
+    let emojis = generate_emojis(args.count);
+    println!("{}", emojis.join(" "));
+}
+
+FILE 4: .dockerignore
+---------------------
+target
+.git
+Dockerfile
+
+FILE 5: Dockerfile
+------------------
+FROM rust:1.83-slim-bookworm as builder
+
+WORKDIR /usr/src/emoji_gen
+
+# Copy only Cargo.toml for dependency caching
+COPY Cargo.toml ./
+
+# Create dummy files for dependency build
+RUN mkdir -p src && \
+    echo "pub fn dummy() {}" > src/lib.rs && \
+    echo "fn main() {}" > src/main.rs && \
+    cargo build --release && \
+    rm -rf src
+
+# Copy actual source
+COPY src ./src
+
+# Build with linting and testing
+RUN rustup component add clippy && \
+    cargo clippy -- -D warnings && \
+    cargo test --release && \
+    cargo build --release
+
+# Runtime stage
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /usr/src/emoji_gen/target/release/emoji_gen /usr/local/bin/
+ENTRYPOINT ["emoji_gen"]
+
+================================================================================
+VALIDATION STEPS
+================================================================================
+
+LOCAL VALIDATION
+----------------
+1. Run linting:
+   cargo clippy -- -D warnings
+
+2. Run tests:
+   cargo test
+
+3. Run locally:
+   cargo run -- --count 5
+
+DOCKER VALIDATION
+-----------------
+1. Build image:
+   docker build -t emoji-gen .
+
+2. Verify caching (rebuild should be fast):
+   docker build -t emoji-gen .
+
+3. Run container:
+   docker run --rm emoji-gen --count 10
+
+4. Test different counts:
+   docker run --rm emoji-gen -c 1
+   docker run --rm emoji-gen -c 20
+
+================================================================================
+EXPECTED BEHAVIOR
+================================================================================
+
+Default (no args):
+  $ emoji_gen
+  🚀
+
+With count argument:
+  $ emoji_gen --count 5
+  😀 🦀 🍕 💻 🎉
+
+Short flag:
+  $ emoji_gen -c 3
+  🔥 🤖 ⚡
+
+================================================================================
+KEY REQUIREMENTS CHECKLIST
+================================================================================
+
+[ ] Lib/bin split pattern implemented (lib.rs + main.rs)
+[ ] Dependency caching in Dockerfile (dummy build layer)
+[ ] Clippy passes with no warnings
+[ ] All tests pass
+[ ] Binary runs locally with cargo run
+[ ] Docker build succeeds
+[ ] Docker image executes correctly
+[ ] Default count is 1
+[ ] --count and -c flags work
+[ ] Emojis output to stdout with space separator
+
+================================================================================
+NOTES
+================================================================================
+
+- The Dockerfile uses a two-stage build for minimal image size
+- Dependency caching layer ensures fast rebuilds when only source changes
+- All emoji logic is in lib.rs for testability and reusability
+- main.rs is a thin CLI wrapper around the library
+- Tests verify edge cases (0 count, single, multiple)
+- Clippy enforced at build time to ensure code quality
+
+================================================================================
