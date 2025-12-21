@@ -44,6 +44,136 @@ docker run --rm emoji-gen --count 10
 docker run --rm emoji-gen -c 5
 ```
 
+## Git Workflow
+
+**IMPORTANT**: When starting any new work, ALWAYS use a branch-based workflow and create a draft pull request.
+
+### Workflow for New Work
+
+1. **Create a feature branch** from `main`:
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b feat/descriptive-name
+   # Or: fix/bug-name, docs/update-name, build/ci-change, etc.
+   ```
+
+2. **Make your changes** and commit following Conventional Commits format
+
+3. **Push the branch** and create a draft PR:
+   ```bash
+   git push -u origin feat/descriptive-name
+   gh pr create --draft --title "feat: add descriptive feature" --body "Description of changes"
+   ```
+
+4. **Continue working** - Push commits as you progress:
+   ```bash
+   git add .
+   git commit -m "feat: implement core functionality"
+   git push
+   ```
+
+5. **Mark PR as ready** when complete:
+   ```bash
+   gh pr ready
+   ```
+
+6. **Merge after CI passes** and review is complete
+
+### Branch Naming Convention
+
+Use Conventional Commits prefixes for branch names:
+
+- `feat/feature-name` - New features
+- `fix/bug-description` - Bug fixes
+- `docs/documentation-update` - Documentation changes
+- `build/ci-or-build-change` - Build system or CI changes
+- `test/test-addition` - Test additions or updates
+- `refactor/code-improvement` - Code refactoring
+- `perf/performance-improvement` - Performance improvements
+- `chore/maintenance-task` - Maintenance tasks
+
+### When to Use This Workflow
+
+**ALWAYS use feature branches and draft PRs for:**
+- ✅ New features
+- ✅ Bug fixes
+- ✅ Refactoring
+- ✅ Documentation updates
+- ✅ CI/CD changes
+- ✅ Any non-trivial changes
+
+**Direct commits to main are ONLY acceptable for:**
+- ❌ Emergency hotfixes (use with extreme caution)
+- ❌ Version bumps for releases
+
+### Pull Request Best Practices
+
+**When creating a draft PR:**
+1. Use a clear, descriptive title following Conventional Commits format
+2. Include context in the PR description:
+   - What changed and why
+   - How to test the changes
+   - Any breaking changes or special considerations
+3. Link to related issues if applicable
+4. Mark as draft until ready for review
+5. Ensure CI passes before marking as ready
+
+**Using GitHub CLI:**
+```bash
+# Create draft PR with auto-generated title from commits
+gh pr create --draft --fill
+
+# Create draft PR with custom title and body
+gh pr create --draft --title "feat: add emoji filtering" --body "Adds ability to filter emojis by category"
+
+# Mark PR as ready for review
+gh pr ready
+
+# View PR status
+gh pr status
+
+# View PR in browser
+gh pr view --web
+```
+
+### Example Complete Workflow
+
+```bash
+# 1. Start new feature
+git checkout main
+git pull origin main
+git checkout -b feat/add-emoji-categories
+
+# 2. Make changes, commit following conventions
+# ... edit files ...
+git add src/lib.rs
+git commit -m "feat: add emoji category support
+
+Adds categorization system for emojis (animals, food, symbols).
+Users can now filter by category using --category flag.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+
+# 3. Push and create draft PR
+git push -u origin feat/add-emoji-categories
+gh pr create --draft --title "feat: add emoji category filtering" --body "Implements emoji categorization and filtering by category"
+
+# 4. Continue working, push more commits
+# ... make more changes ...
+git add .
+git commit -m "feat: add category tests"
+git push
+
+# 5. When ready, mark PR as ready
+gh pr ready
+
+# 6. After CI passes and review is done, merge via GitHub UI or:
+gh pr merge --squash
+```
+
 ## Docker Build Architecture
 
 The Dockerfile uses a **two-stage build with dependency caching**:
