@@ -2,6 +2,10 @@
 
 A simple Rust-based CLI application that generates random emojis to stdout.
 
+## Motivation
+
+Inspired by Oxide Computer Company's [`Why does Oxide use Rust?` blog post](https://oxide.computer/faq-friday/why-does-oxide-use-rust): I created this project to understand how I could build a Rust-based CLI with Claude with my free hours on the weekend. I learned about Cargo as a build system, setting up core Actions workflows for the software development lifecycle, the [`emojis` package](https://github.com/rossmacarthur/emojis), and how to optimize my token usage with Claude by defining instructions once in CLAUDE.md (with a refactors towards `.claude/skills` along the way). It's been great fun! 🦀
+
 ## Features
 
 - Generate random emojis from a comprehensive pool of 1900+ Unicode emojis
