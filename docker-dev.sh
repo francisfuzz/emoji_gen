@@ -4,7 +4,7 @@
 
 set -e
 
-RUST_IMAGE="rust:1.83-slim-bookworm"
+RUST_IMAGE="rust:1.80-slim-bookworm"
 WORKDIR="/usr/src/emoji_gen"
 
 case "$1" in
