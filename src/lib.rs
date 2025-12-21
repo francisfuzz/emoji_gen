@@ -1,4 +1,4 @@
-use rand::seq::SliceRandom;
+use rand::prelude::IndexedRandom;
 
 /// A constant list of emojis to choose from
 const EMOJI_POOL: &[&str] = &[
@@ -13,7 +13,7 @@ pub fn generate_emojis(count: usize) -> Vec<&'static str> {
         return Vec::new();
     }
 
-    let mut rng = rand::thread_rng();
+    let mut rng = rand::rng();
     (0..count)
         .map(|_| {
             *EMOJI_POOL
