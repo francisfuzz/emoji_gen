@@ -3,9 +3,8 @@ use std::sync::LazyLock;
 
 /// A lazily-initialized pool of all Unicode emojis.
 /// Built from the `emojis` crate, which provides comprehensive Unicode emoji coverage.
-static EMOJI_POOL: LazyLock<Vec<&'static str>> = LazyLock::new(|| {
-    emojis::iter().map(|e| e.as_str()).collect()
-});
+static EMOJI_POOL: LazyLock<Vec<&'static str>> =
+    LazyLock::new(|| emojis::iter().map(|e| e.as_str()).collect());
 
 /// Core logic: Generates a vector of n random emojis.
 /// Returns empty vector if count is 0.
@@ -58,6 +57,10 @@ mod tests {
     #[test]
     fn test_emoji_pool_size() {
         // Verify we have a comprehensive emoji pool (1800+ emojis from emojis crate)
-        assert!(EMOJI_POOL.len() > 1800, "Expected large emoji pool, got {}", EMOJI_POOL.len());
+        assert!(
+            EMOJI_POOL.len() > 1800,
+            "Expected large emoji pool, got {}",
+            EMOJI_POOL.len()
+        );
     }
 }
