@@ -9,9 +9,64 @@ A simple Rust-based CLI application that generates random emojis to stdout.
 - Clean command-line interface with `--count` flag
 - Available as both a local Rust binary and a Docker container
 
-## Quick Start with Docker
+## Installation
 
-The easiest way to use `emoji_gen` is with Docker (no Rust installation required):
+### Pre-compiled Binaries (Recommended)
+
+Download the latest release for your platform from the [Releases page](https://github.com/francisfuzz/emoji_gen/releases):
+
+**Linux (x86_64):**
+```bash
+curl -LO https://github.com/francisfuzz/emoji_gen/releases/latest/download/emoji_gen-linux-x86_64.tar.gz
+tar xzf emoji_gen-linux-x86_64.tar.gz
+sudo mv emoji_gen /usr/local/bin/
+```
+
+**macOS (Intel):**
+```bash
+curl -LO https://github.com/francisfuzz/emoji_gen/releases/latest/download/emoji_gen-macos-x86_64.tar.gz
+tar xzf emoji_gen-macos-x86_64.tar.gz
+sudo mv emoji_gen /usr/local/bin/
+```
+
+**macOS (Apple Silicon):**
+```bash
+curl -LO https://github.com/francisfuzz/emoji_gen/releases/latest/download/emoji_gen-macos-aarch64.tar.gz
+tar xzf emoji_gen-macos-aarch64.tar.gz
+sudo mv emoji_gen /usr/local/bin/
+```
+
+**Windows:**
+
+Download `emoji_gen-windows-x86_64.zip` from the [Releases page](https://github.com/francisfuzz/emoji_gen/releases), extract it, and add the directory to your PATH.
+
+### Docker (GitHub Container Registry)
+
+Pull and run the official Docker image:
+
+```bash
+# Pull the latest image
+docker pull ghcr.io/francisfuzz/emoji_gen:latest
+
+# Run it
+docker run --rm ghcr.io/francisfuzz/emoji_gen:latest --count 5
+
+# Or use a specific version
+docker pull ghcr.io/francisfuzz/emoji_gen:v0.1.0
+docker run --rm ghcr.io/francisfuzz/emoji_gen:v0.1.0
+```
+
+### Cargo (Rust Package Manager)
+
+If you have Rust installed:
+
+```bash
+cargo install emoji_gen
+```
+
+## Quick Start (Building from Source)
+
+If you want to build from source:
 
 ### Clone the Repository
 

@@ -2,6 +2,14 @@
 name = "emoji_gen"
 version = "0.1.0"
 edition = "2021"
+authors = ["Francis Batac <15894826+francisfuzz@users.noreply.github.com>"]
+description = "A simple CLI tool to generate random emojis"
+license = "MIT"
+repository = "https://github.com/francisfuzz/emoji_gen"
+homepage = "https://github.com/francisfuzz/emoji_gen"
+readme = "README.md"
+keywords = ["cli", "emoji", "random", "generator"]
+categories = ["command-line-utilities"]
 
 [lib]
 name = "emoji_gen"

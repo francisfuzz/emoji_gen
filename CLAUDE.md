@@ -164,3 +164,34 @@ When creating commits:
 5. Add body for context if the change needs explanation
 6. Include footers for breaking changes or additional metadata
 7. Always append the Claude Code footer
+
+## Release Process
+
+Releases are fully automated via GitHub Actions. See [RELEASING.md](RELEASING.md) for detailed instructions.
+
+### Quick Release Steps
+
+1. **Update version** in `Cargo.toml`
+2. **Commit**: `git commit -m "chore: bump version to X.Y.Z"`
+3. **Tag**: `git tag -a vX.Y.Z -m "Release vX.Y.Z"`
+4. **Push**: `git push origin main && git push origin vX.Y.Z`
+
+The CI workflow automatically:
+- Builds binaries for Linux (x86_64, ARM64), macOS (Intel, Apple Silicon), Windows (x86_64)
+- Publishes multi-platform Docker images to `ghcr.io/francisfuzz/emoji_gen`
+- Creates GitHub Release with all artifacts and checksums
+- Tags Docker images with version and `latest`
+
+### Versioning
+
+Follow [Semantic Versioning](https://semver.org/):
+- **MAJOR** (1.0.0): Breaking changes (use `!` in commit or `BREAKING CHANGE:` footer)
+- **MINOR** (0.1.0): New features, backwards compatible
+- **PATCH** (0.0.1): Bug fixes, backwards compatible
+
+### Distribution Channels
+
+Released artifacts are available via:
+- **GitHub Releases**: Pre-compiled binaries for all platforms
+- **GitHub Container Registry**: `ghcr.io/francisfuzz/emoji_gen:vX.Y.Z` and `:latest`
+- **crates.io**: Available for `cargo install emoji_gen` (manual publish required)
