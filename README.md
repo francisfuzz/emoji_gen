@@ -4,7 +4,7 @@ A simple Rust-based CLI application that generates random emojis to stdout.
 
 ## Features
 
-- Generate random emojis from a curated pool of 20 emojis
+- Generate random emojis from a comprehensive pool of 1900+ Unicode emojis
 - Support for generating single or multiple emojis
 - Clean command-line interface with `--count` flag
 - Available as both a local Rust binary and a Docker container
@@ -95,7 +95,7 @@ If you have Rust installed, you can build and run the project natively:
 
 ### Prerequisites
 
-- Rust 1.83 or later (install from [rustup.rs](https://rustup.rs))
+- Rust 1.80 or later (install from [rustup.rs](https://rustup.rs))
 
 ### Clone and Navigate
 
