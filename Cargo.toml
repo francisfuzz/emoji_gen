@@ -2,6 +2,7 @@
 name = "emoji_gen"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.80"
 authors = ["Francis Batac <15894826+francisfuzz@users.noreply.github.com>"]
 description = "A simple CLI tool to generate random emojis"
 license = "MIT"
