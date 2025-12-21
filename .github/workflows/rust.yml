@@ -1,0 +1,83 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust-checks:
+    name: Rust Lint and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Rust
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+      with:
+        toolchain: stable
+        components: clippy, rustfmt
+
+    - name: Check formatting
+      run: cargo fmt -- --check
+
+    - name: Run clippy
+      run: cargo clippy -- -D warnings
+
+    - name: Build
+      run: cargo build --verbose
+
+    - name: Run tests
+      run: cargo test --verbose
+
+  docker-build:
+    name: Docker Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker image
+      run: docker build -t emoji-gen:test .
+
+    - name: Test Docker image - default
+      run: |
+        OUTPUT=$(docker run --rm emoji-gen:test)
+        echo "Default output: $OUTPUT"
+        # Verify output is not empty
+        if [ -z "$OUTPUT" ]; then
+          echo "Error: Default output is empty"
+          exit 1
+        fi
+
+    - name: Test Docker image - count flag
+      run: |
+        OUTPUT=$(docker run --rm emoji-gen:test --count 5)
+        echo "Count=5 output: $OUTPUT"
+        # Count the number of emojis (space-separated)
+        COUNT=$(echo "$OUTPUT" | wc -w)
+        if [ "$COUNT" -ne 5 ]; then
+          echo "Error: Expected 5 emojis, got $COUNT"
+          exit 1
+        fi
+
+    - name: Test Docker image - short flag
+      run: |
+        OUTPUT=$(docker run --rm emoji-gen:test -c 3)
+        echo "Count=3 output: $OUTPUT"
+        COUNT=$(echo "$OUTPUT" | wc -w)
+        if [ "$COUNT" -ne 3 ]; then
+          echo "Error: Expected 3 emojis, got $COUNT"
+          exit 1
+        fi
+
+    - name: Test Docker image - help
+      run: docker run --rm emoji-gen:test --help
