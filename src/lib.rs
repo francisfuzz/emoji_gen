@@ -2,8 +2,8 @@ use rand::seq::SliceRandom;
 
 /// A constant list of emojis to choose from
 const EMOJI_POOL: &[&str] = &[
-    "😀", "😎", "🦀", "🔥", "🚀", "🍕", "🎉", "💻", "🤖", "🦄",
-    "🍩", "🌍", "💡", "🐉", "🎲", "🎹", "🎨", "🌮", "⚡", "👽"
+    "😀", "😎", "🦀", "🔥", "🚀", "🍕", "🎉", "💻", "🤖", "🦄", "🍩", "🌍", "💡", "🐉", "🎲", "🎹",
+    "🎨", "🌮", "⚡", "👽",
 ];
 
 /// Core logic: Generates a vector of n random emojis.
@@ -15,7 +15,11 @@ pub fn generate_emojis(count: usize) -> Vec<&'static str> {
 
     let mut rng = rand::thread_rng();
     (0..count)
-        .map(|_| *EMOJI_POOL.choose(&mut rng).expect("EMOJI_POOL is non-empty"))
+        .map(|_| {
+            *EMOJI_POOL
+                .choose(&mut rng)
+                .expect("EMOJI_POOL is non-empty")
+        })
         .collect()
 }
 

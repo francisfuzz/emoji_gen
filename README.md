@@ -86,14 +86,51 @@ $ emoji_gen --help
 
 ## Development
 
+### With Docker (No Rust Installation Required)
+
+Use the included helper script for development tasks:
+
 ```bash
+# Make script executable (first time only)
+chmod +x docker-dev.sh
+
+# Auto-fix code formatting
+./docker-dev.sh fmt
+
+# Check formatting (what CI runs)
+./docker-dev.sh fmt-check
+
+# Run linter
+./docker-dev.sh clippy
+
 # Run tests
-cargo test
+./docker-dev.sh test
+
+# Build the project
+./docker-dev.sh build
+
+# Run the project
+./docker-dev.sh run --count 10
+```
+
+### With Local Rust Installation
+
+If you have Rust installed locally:
+
+```bash
+# Format code
+cargo fmt
+
+# Check formatting
+cargo fmt -- --check
 
 # Run linter
 cargo clippy -- -D warnings
 
-# Run with verbose output
+# Run tests
+cargo test
+
+# Run with arguments
 cargo run -- --count 10
 ```
 
