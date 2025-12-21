@@ -134,6 +134,17 @@ cargo test
 cargo run -- --count 10
 ```
 
+## Contributing
+
+Contributions are welcome! This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification.
+
+Before submitting a PR, please ensure:
+- Tests pass: `./docker-dev.sh test`
+- Code is formatted: `./docker-dev.sh fmt-check`
+- Linting passes: `./docker-dev.sh clippy`
+
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for detailed guidelines.
+
 ## License
 
 See [LICENSE](LICENSE) file for details.

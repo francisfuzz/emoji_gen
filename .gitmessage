@@ -1,0 +1,49 @@
+# <type>[optional scope][optional !]: <description>
+# |<----  Using a Maximum Of 50 Characters  ---->|
+
+# [optional body]
+# |<----   Try To Limit Each Line to a Maximum Of 72 Characters   ---->|
+
+# [optional footer(s)]
+
+# 🤖 Generated with [Claude Code](https://claude.com/claude-code)
+#
+# Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+
+# --- COMMIT END ---
+# Type can be:
+#   feat     (new feature)
+#   fix      (bug fix)
+#   docs     (documentation changes)
+#   build    (build system, dependencies, CI/CD)
+#   test     (adding or updating tests)
+#   refactor (code refactoring)
+#   perf     (performance improvements)
+#   chore    (maintenance, tooling)
+# --------------------
+# Scope is optional and describes the section affected (cli, docker, etc.)
+# --------------------
+# Breaking changes:
+#   - Add ! after type/scope: feat!: description
+#   - Or add footer: BREAKING CHANGE: description
+# --------------------
+# Description:
+#   - Use imperative mood ("add" not "added")
+#   - Don't capitalize first letter
+#   - No period at the end
+# --------------------
+# Body (optional):
+#   - Explain WHAT and WHY (not HOW)
+#   - Separate from description with blank line
+# --------------------
+# Footer (optional):
+#   - BREAKING CHANGE: description
+#   - Fixes #123
+#   - Refs #456
+# --------------------
+# Examples:
+#   feat: add emoji pool customization
+#   fix(cli): correct count validation
+#   docs: update README with Docker setup
+#   build(docker)!: change base image to Alpine
+#   BREAKING CHANGE: requires Docker 20+

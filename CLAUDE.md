@@ -61,3 +61,106 @@ All tests are in `src/lib.rs` under the `#[cfg(test)]` module. Tests verify:
 - Zero emoji edge case (returns empty vector)
 
 The Dockerfile automatically runs tests during build, so a successful Docker build guarantees passing tests.
+
+## Commit Conventions
+
+This project follows the **Conventional Commits** specification. All commits MUST follow this format:
+
+### Format
+
+```
+<type>[optional scope][optional !]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+
+- **feat**: New feature for the user or library
+- **fix**: Bug fix for the user
+- **docs**: Documentation changes only
+- **build**: Changes to build system or dependencies (Cargo.toml, Dockerfile, CI)
+- **test**: Adding or updating tests
+- **refactor**: Code changes that neither fix bugs nor add features
+- **perf**: Performance improvements
+- **chore**: Maintenance tasks, tooling changes
+
+### Scope (Optional)
+
+Scope describes the section of the codebase, e.g., `feat(cli):`, `fix(parser):`, `build(docker):`
+
+### Breaking Changes
+
+Indicate breaking changes with `!` before the colon:
+```
+feat!: drop support for count=0
+```
+
+Or use `BREAKING CHANGE:` footer:
+```
+feat: change default emoji pool
+
+BREAKING CHANGE: removed deprecated emojis from pool
+```
+
+### Examples
+
+**Feature addition:**
+```
+feat: add emoji pool customization via config file
+
+Allows users to specify custom emoji pools through a TOML config.
+Defaults to built-in pool if no config is provided.
+```
+
+**Bug fix:**
+```
+fix: correct emoji count validation
+
+Previously accepted negative counts, now returns error for count < 0.
+```
+
+**Build/CI change:**
+```
+build(docker): optimize dependency caching layer
+
+Remove emoji_gen-specific artifacts to prevent cache conflicts between
+dummy and real builds.
+```
+
+**Documentation:**
+```
+docs: add Docker development workflow to README
+
+Includes docker-dev.sh helper script usage and examples.
+```
+
+**With scope and breaking change:**
+```
+feat(cli)!: replace --count with --num flag
+
+BREAKING CHANGE: --count flag removed, use --num instead
+```
+
+### Commit Footer
+
+Always include the Claude Code footer when creating commits:
+
+```
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+```
+
+### Quick Reference
+
+When creating commits:
+1. Choose the appropriate type (feat, fix, docs, build, test, refactor, perf, chore)
+2. Add optional scope in parentheses if it clarifies the change area
+3. Use `!` after type/scope if introducing breaking changes
+4. Write a clear, imperative description (e.g., "add" not "added")
+5. Add body for context if the change needs explanation
+6. Include footers for breaking changes or additional metadata
+7. Always append the Claude Code footer
