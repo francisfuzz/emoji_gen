@@ -1,0 +1,10 @@
+<type>[optional scope][optional !]: <description>
+
+[Optional body explaining what changed and why. Use this section to provide
+context that isn't obvious from the code changes. Keep lines under 72 chars.]
+
+[Optional footers like BREAKING CHANGE: or issue references]
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
