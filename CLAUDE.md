@@ -8,6 +8,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `src/lib.rs` contains the core emoji generation logic and tests
 - `src/main.rs` is a thin CLI wrapper using clap for argument parsing
 
+### Project Skills
+
+Workflow automation is available via Project Skills in `.claude/skills/`:
+- `conventional-commits` - Commit message formatting
+- `git-workflow` - Branch and PR workflow
+- `release-process` - Version and release management
+
+Skills activate automatically based on context.
+
 ## Architecture
 
 **Lib/Bin Split Pattern**: All business logic lives in `lib.rs` (the library crate) for testability and reusability. The binary in `main.rs` only handles CLI argument parsing and output formatting.
