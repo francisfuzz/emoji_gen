@@ -26,13 +26,6 @@ tar xzf emoji_gen-linux-x86_64.tar.gz
 sudo mv emoji_gen /usr/local/bin/
 ```
 
-**Linux (ARM64):**
-```bash
-curl -LO https://github.com/francisfuzz/emoji_gen/releases/latest/download/emoji_gen-linux-aarch64.tar.gz
-tar xzf emoji_gen-linux-aarch64.tar.gz
-sudo mv emoji_gen /usr/local/bin/
-```
-
 **macOS (Intel):**
 ```bash
 curl -LO https://github.com/francisfuzz/emoji_gen/releases/latest/download/emoji_gen-macos-x86_64.tar.gz
