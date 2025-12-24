@@ -1,6 +1,6 @@
 [package]
 name = "emoji_gen"
-version = "0.1.2"
+version = "0.2.0"
 edition = "2021"
 rust-version = "1.80"
 authors = ["Francis Batac <15894826+francisfuzz@users.noreply.github.com>"]
