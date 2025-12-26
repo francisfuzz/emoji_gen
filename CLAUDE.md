@@ -13,6 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Workflow automation is available via Project Skills in `.claude/skills/`:
 - `conventional-commits` - Commit message formatting
 - `git-workflow` - Branch and PR workflow
+- `git-tag-release` - Automated Git tagging and release triggering
 - `release-process` - Version and release management
 
 Skills activate automatically based on context.
